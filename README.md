@@ -34,7 +34,7 @@ Starting from version 1.2.0, RTL files are loaded after the non-rtl files only w
 
 ## Installation
 
-It requires **Qt 5.10+** *(including 5.15)* or **Qt 6.0+** *(including 6.11)*.
+It requires **Qt 5.10+** *(including 5.15)* or **Qt 6.0+** *(including 6.12)*.
 
 > The road is long, but the way is free — we always have a choice.
 
@@ -83,7 +83,7 @@ pub   rsa4096 2020-10-31 [SC]
       458B 0C46 D024 FD8C B8BC  99CD FFE5 BD43 9356 DF7D
 ```
 
-## Known issues & Dev
+## Dev
 
 You can set `GQSS_DEBUG=1` from command line to enable debug mode.\
 When the plugin has applied the theme, the `GQSS_READY` property of `qApp` is `true`.
@@ -95,11 +95,9 @@ From any program, you can reload the theme with:
 		qApp->setProperty("GQSS_RELOAD", true);
 		QApplication::style()->polish(qApp);
 		QApplication::processEvents();
-		window->adjustSize();
+		window->resize(window->minimumSizeHint());
 	}
 ```
-
-On Fedora with Qt 5, the GTK 3 platform theme _(qt5-qtbase-gui)_ works better than on Debian _(qt5-gtk-platformtheme)_, but the fonts remain blurry, see [bug 2459509](https://bugzilla.redhat.com/show_bug.cgi?id=2459509).
 
 #### VLC
 
@@ -113,8 +111,8 @@ Don't forget to add `::1 openshot.org www.openshot.org` in _/etc/hosts_ to disab
 
 ## Copyright
 
-- Current version: 2.0.0~nightly20261004
-- Compatibility: Qt 5.10..5.15 / 6.0..6.11
+- Current version: 2.0.0~nightly20261011
+- Compatibility: Qt 5.10..5.15 / 6.0..6.12
 - Links: [luigifab.fr](https://www.luigifab.fr/gtkqt/globalqss) - [github.com](https://github.com/luigifab/globalqss) - [ppa/dpa](https://launchpad.net/~luigifab/+archive/ubuntu/packages)
 
 This program is provided under the terms of the **GNU GPLv2+** license.\

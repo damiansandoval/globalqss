@@ -92,7 +92,7 @@ for qt in "5" "6"; do
   cmake --build build-qt$qt
   DESTDIR=$PKG cmake --install build-qt$qt
 
-  install -Dpm 644 data/profile.sh $PKG/etc/profile.d/qt$qt-style-globalqss.sh # @todo +x ?
+  install -Dpm 755 data/profile.sh $PKG/etc/profile.d/qt$qt-style-globalqss.sh
 done
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la

@@ -2,7 +2,7 @@
  * Created M/25/11/2025
  * Updated M/29/09/2026
  *
- * Copyright 2025-2026 | Fabrice Creuzot (luigifab) <code~luigifab~fr>
+ * Copyright 2025-2027 | Fabrice Creuzot (luigifab) <code~luigifab~fr>
  * https://github.com/luigifab/globalqss
  * https://www.luigifab.fr/gtkqt/globalqss
  *

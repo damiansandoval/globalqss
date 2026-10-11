@@ -1,8 +1,8 @@
 /**
  * Created M/25/11/2025
- * Updated D/04/10/2026
+ * Updated D/11/10/2026
  *
- * Copyright 2025-2026 | Fabrice Creuzot (luigifab) <code~luigifab~fr>
+ * Copyright 2025-2027 | Fabrice Creuzot (luigifab) <code~luigifab~fr>
  * https://github.com/luigifab/globalqss
  * https://www.luigifab.fr/gtkqt/globalqss
  *
@@ -175,7 +175,7 @@ void GlobalQSS::polish(QApplication *app) {
 				if (qEnvironmentVariableIsSet("GQSS_DEBUG"))
 					qDebug() << "GQSS:   dir" << path;
 
-				if (dir.exists()) {
+				if (dir.exists("qt.qss")) {
 
 					dir.setFilter(QDir::Files);
 					dir.setNameFilters(QStringList() << "*.qss");

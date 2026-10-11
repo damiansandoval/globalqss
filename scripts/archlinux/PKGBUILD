@@ -25,6 +25,7 @@ build() {
 package_qt5-style-globalqss() {
   pkgdesc+=" 5"
   depends+=('qt5-base>=5.10.0')
+  optdepends=('qt5-svg: for svg images')
   cd "$pkgbase-$pkgver"
   DESTDIR="$pkgdir" cmake --install build-qt5
   install -Dpm 644 data/profile.sh "$pkgdir/etc/profile.d/qt5-style-globalqss.sh"
@@ -35,6 +36,7 @@ package_qt5-style-globalqss() {
 package_qt6-style-globalqss() {
   pkgdesc+=" 6"
   depends+=('qt6-base')
+  optdepends=('qt6-svg: for svg images')
   cd "$pkgbase-$pkgver"
   DESTDIR="$pkgdir" cmake --install build-qt6
   install -Dpm 644 data/profile.sh "$pkgdir/etc/profile.d/qt6-style-globalqss.sh"
