@@ -25,6 +25,9 @@
 #include <QDir>
 #include <QFile>
 #include <QProxyStyle>
+#include <QSettings>
+#include <QStandardPaths>
+#include <QStyleFactory>
 #include <QString>
 #ifdef Q_OS_LINUX
 #include <QDBusConnection>
@@ -39,13 +42,15 @@ class GlobalQSS : public QProxyStyle
 	bool gqss_applied = false;
 
 public:
-	GlobalQSS() = default;
+	GlobalQSS();
 	~GlobalQSS();
 	bool event(QEvent *e) override;
 	void polish(QApplication *app) override;
 
 private:
+	static QStyle *createBaseStyle();
 	QString readThemeName(QString path, QString key);
+	QString readGtkSettingsThemeName();
 	QString readFile(QApplication *app, QDir dir, QString name);
 
 private slots:

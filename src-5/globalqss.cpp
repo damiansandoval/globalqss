@@ -19,7 +19,7 @@
 
 #include "globalqss.h"
 
-// can be defined from command line: GQSS_DEBUG GQSS_THEME
+// can be defined from command line: GQSS_DEBUG GQSS_THEME GQSS_BASE (base style, default Fusion)
 //      can be defined from program: GQSS_THEME GQSS_RELOAD
 //      can be checked from program: GQSS_SET=yes (plugin loaded) / GQSS_READY=yes (plugin loaded and theme applied) / GQSS_THEME (theme name)
 //                                   GQSS_SIGNAL=yes (on desktop theme change)
@@ -27,6 +27,27 @@
 //   engine is loaded without theme: GQSS_SET="yes" + GQSS_THEME=""
 // engine is loaded with None theme: GQSS_SET="yes" + GQSS_READY="yes" + GQSS_THEME="None" (empty style sheet)
 //      engine is loaded with theme: GQSS_SET="yes" + GQSS_READY="yes" + GQSS_THEME="abc"  (theme files and qt.qss)
+
+GlobalQSS::GlobalQSS() : QProxyStyle(createBaseStyle()) {
+}
+
+// without an explicit base, QProxyStyle uses the desktop style, which under Plasma is
+// the configured widgetStyle: when that is GlobalQSS itself, it proxies itself forever
+QStyle *GlobalQSS::createBaseStyle() {
+
+	QString key = qEnvironmentVariable("GQSS_BASE").trimmed();
+	if (key.isEmpty() || (key.compare("GlobalQSS", Qt::CaseInsensitive) == 0))
+		key = "Fusion";
+
+	QStyle *style = QStyleFactory::create(key);
+	if (!style)
+		style = QStyleFactory::create("Fusion");
+
+	if (qEnvironmentVariableIsSet("GQSS_DEBUG"))
+		qDebug() << "GQSS: base style" << (style ? style->objectName() : QString("none"));
+
+	return style;
+}
 
 GlobalQSS::~GlobalQSS() {
 
@@ -96,6 +117,8 @@ void GlobalQSS::polish(QApplication *app) {
 	// read theme from GQSS_THEME or from MATE or from GNOME
 	// for MATE/GNOME, if theme found, set GQSS_THEME
 	QString themeName = qEnvironmentVariable("GQSS_THEME").trimmed();
+	if (themeName.isEmpty())
+		themeName = readGtkSettingsThemeName();
 	if (themeName.isEmpty())
 		themeName = readThemeName("org.mate.interface", "gtk-theme");
 	if (themeName.isEmpty())
@@ -216,6 +239,26 @@ QString GlobalQSS::readThemeName(QString path, QString key) {
 				qputenv("GQSS_THEME", result.toUtf8());
 		}
 	#endif
+
+	return result;
+}
+
+// Plasma writes the GTK theme to gtk-3.0/settings.ini and may leave gsettings on another theme
+QString GlobalQSS::readGtkSettingsThemeName() {
+
+	QString result;
+
+	if (!qEnvironmentVariable("XDG_CURRENT_DESKTOP").contains("KDE", Qt::CaseInsensitive))
+		return result;
+
+	QString path = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/gtk-3.0/settings.ini";
+	if (qEnvironmentVariableIsSet("GQSS_DEBUG"))
+		qDebug() << "GQSS:  gtk settings" << path;
+
+	QSettings settings(path, QSettings::IniFormat);
+	result = settings.value("Settings/gtk-theme-name").toString().trimmed();
+	if (!result.isEmpty())
+		qputenv("GQSS_THEME", result.toUtf8());
 
 	return result;
 }

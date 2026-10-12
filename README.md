@@ -2,7 +2,7 @@
 
 This engine allows theming of Qt applications using QSS files, similar to how GTK applications are themed with CSS files.
 
-It finds the theme name from the environment variable `GQSS_THEME`, or from MATE settings, or from GNOME settings. It supports theme reload on desktop theme change (via DBus).
+It finds the theme name from the environment variable `GQSS_THEME`, or from KDE Plasma's GTK settings (`~/.config/gtk-3.0/settings.ini`, only under Plasma), or from MATE settings, or from GNOME settings. It supports theme reload on desktop theme change (via DBus).
 
 ## Tips
 
@@ -82,7 +82,8 @@ pub   rsa4096 2020-10-31 [SC]
 
 ## Known issues & Dev
 
-You can set `GQSS_DEBUG=1` from command line to enable debug mode.\
+You can set `GQSS_DEBUG=1` from command line to enable debug mode (with Qt 6 add `QT_FORCE_STDERR_LOGGING=1` to see it in the terminal).\
+You can set `GQSS_BASE=Breeze` (or any other style) to change the base style, default is `Fusion`.\
 When the plugin has applied the theme, `GQSS_READY=yes` is set.
 
 From any program, you can reload the theme with:
